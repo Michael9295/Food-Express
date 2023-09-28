@@ -11,6 +11,7 @@ import Boisson from "./pages/Boisson";
 import SpecialHamburgers from "./pages/SpecialHamburgers";
 import Panier from "./pages/Panier";
 import { PanierProvider } from "./components/PanierContext";
+import Contact from "./pages/Contact";
 import "./App.css";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/hamburgers" element={<Hamburgers />} />
             <Route path="/spécial-hamburgers" element={<SpecialHamburgers />} />
             <Route path="/salades" element={<Salades />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />
         </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
 import BoissonTitre from "../assets/boissonstitre-removebg-preview.png";
-import Boissons1 from "../assets/boisson.png";
+import Boisson1 from "../assets/boisson.png";
 import Boisson3 from "../assets/boisson3.png";
 import Boisson4 from "../assets/boisson4.png";
 import Boisson5 from "../assets/boisson5.png";
@@ -13,12 +13,12 @@ function Boisson() {
   const { ajouterAuPanier } = usePanier();
 
   const boissons = [
-    { image: Boissons1, prix: 2.99 },
-    { image: Boisson3, prix: 1.99 },
-    { image: Boisson4, prix: 3.49 },
-    { image: Boisson5, prix: 2.29 },
-    { image: Boisson6, prix: 1.79 },
-    { image: Boisson7, prix: 2.99 },
+    { nom: "SANGRIA GOIKO", image: Boisson1, prix: 3.99 },
+    { nom: "MOJITO MORENO", image: Boisson3, prix: 1.99 },
+    { nom: "THE GLACE GOIKO", image: Boisson4, prix: 3.49 },
+    { nom: "DAIQUIRI", image: Boisson5, prix: 2.29 },
+    { nom: "GOIKO FRESH LEMONADE", image: Boisson6, prix: 1.79 },
+    { nom: "GOIKOPITA", image: Boisson7, prix: 2.99 },
   ];
 
   const buttonStyle = {
@@ -33,6 +33,10 @@ function Boisson() {
   const imageStyle = {
     maxWidth: "100px",
     maxHeight: "100px",
+  };
+
+  const handleAjouterAuPanier = (produit) => {
+    ajouterAuPanier(produit);
   };
 
   return (
@@ -54,9 +58,11 @@ function Boisson() {
             />
             <button
               style={buttonStyle}
-              onClick={() => ajouterAuPanier(boisson.prix)}
+              onClick={() => handleAjouterAuPanier(boisson)}
             >
-              Prix: {boisson.prix.toFixed(2)} €
+              Ajouter au panier
+              <br />
+              Prix: {boisson.prix ? `${boisson.prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}

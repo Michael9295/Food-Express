@@ -1,4 +1,3 @@
-// Entrées.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
@@ -14,12 +13,12 @@ function Entrées() {
   const { ajouterAuPanier } = usePanier();
 
   const entrées = [
-    { image: Entrée1, prix: 3.99 },
-    { image: Entrée2, prix: 2.49 },
-    { image: Entrée3, prix: 4.49 },
-    { image: Entrée4, prix: 3.29 },
-    { image: Entrée5, prix: 2.79 },
-    { image: Entrée6, prix: 3.99 },
+    { nom: "BOOM BALLS", image: Entrée1, prix: 3.99 },
+    { nom: "TEQUEPARTY", image: Entrée2, prix: 2.49 },
+    { nom: "TRI-LOADED", image: Entrée3, prix: 4.49 },
+    { nom: "ONION RINGS", image: Entrée4, prix: 3.29 },
+    { nom: "TEQUES", image: Entrée5, prix: 2.79 },
+    { nom: "CHORREO NACHOS", image: Entrée6, prix: 3.99 },
   ];
 
   const buttonStyle = {
@@ -34,6 +33,10 @@ function Entrées() {
   const imageStyle = {
     maxWidth: "100px",
     maxHeight: "100px",
+  };
+
+  const handleAjouterAuPanier = (produit) => {
+    ajouterAuPanier(produit);
   };
 
   return (
@@ -55,9 +58,11 @@ function Entrées() {
             />
             <button
               style={buttonStyle}
-              onClick={() => ajouterAuPanier(entrée.prix)}
+              onClick={() => handleAjouterAuPanier(entrée)}
             >
-              Prix: {entrée.prix.toFixed(2)} €
+              Ajouter au panier
+              <br />
+              Prix: {entrée.prix ? `${entrée.prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}

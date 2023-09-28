@@ -1,4 +1,3 @@
-// Hamburgers.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
@@ -14,12 +13,12 @@ function Hamburgers() {
   const { ajouterAuPanier } = usePanier();
 
   const hamburgers = [
-    { image: Hamburger1, prix: 4.99 },
-    { image: Hamburger2, prix: 3.49 },
-    { image: Hamburger3, prix: 2.99 },
-    { image: Hamburger4, prix: 3.79 },
-    { image: Hamburger5, prix: 4.49 },
-    { image: Hamburger6, prix: 2.29 },
+    { nom: "MADRID SAGA", image: Hamburger1, prix: 4.99 },
+    { nom: "HAMBURGER LA CHICK-TARIENNE", image: Hamburger2, prix: 3.49 },
+    { nom: "HAMBURGER GRETA", image: Hamburger3, prix: 2.99 },
+    { nom: "HAMBURGER MADRID", image: Hamburger4, prix: 3.79 },
+    { nom: "HAMBURGER GUAKA-CHICKEN", image: Hamburger5, prix: 4.49 },
+    { nom: "HAMBURGER LE SMASH", image: Hamburger6, prix: 2.29 },
   ];
 
   const buttonStyle = {
@@ -36,16 +35,20 @@ function Hamburgers() {
     maxHeight: "100px",
   };
 
+  const handleAjouterAuPanier = (produit) => {
+    ajouterAuPanier(produit);
+  };
+
   return (
     <div>
       <img
         src={HamburgersTitre}
         alt="Hamburgers Titre"
         className="w-full"
-        style={{ maxWidth: "50%", maxHeight: "50%", margin: "0 auto" }}
+        style={{ maxWidth: "50%", maxHeight: "40%", margin: "0 auto" }}
       />
 
-      <div className="flex mt-4 ml-20">
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         {hamburgers.map((hamburger, index) => (
           <div key={index} className="max-w-1/3 mr-2 max-h-1/3">
             <img
@@ -55,9 +58,11 @@ function Hamburgers() {
             />
             <button
               style={buttonStyle}
-              onClick={() => ajouterAuPanier(hamburger.prix)}
+              onClick={() => handleAjouterAuPanier(hamburger)}
             >
-              Prix: {hamburger.prix.toFixed(2)} €
+              Ajouter au panier
+              <br />
+              Prix: {hamburger.prix ? `${hamburger.prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}
