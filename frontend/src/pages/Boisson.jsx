@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { usePanier } from "../components/PanierContext";
 import BoissonTitre from "../assets/boissonstitre-removebg-preview.png";
 import Boissons1 from "../assets/boisson.png";
 import Boisson3 from "../assets/boisson3.png";
@@ -8,26 +10,60 @@ import Boisson6 from "../assets/boisson6.png";
 import Boisson7 from "../assets/boisson7.png";
 
 function Boisson() {
+  const { ajouterAuPanier } = usePanier();
+
+  const boissons = [
+    { image: Boissons1, prix: 2.99 },
+    { image: Boisson3, prix: 1.99 },
+    { image: Boisson4, prix: 3.49 },
+    { image: Boisson5, prix: 2.29 },
+    { image: Boisson6, prix: 1.79 },
+    { image: Boisson7, prix: 2.99 },
+  ];
+
+  const buttonStyle = {
+    backgroundColor: "orange",
+    color: "white",
+    padding: "0.25rem 0.5rem",
+    border: "none",
+    borderRadius: "4px",
+    marginTop: "0.5rem",
+  };
+
+  const imageStyle = {
+    maxWidth: "100px",
+    maxHeight: "100px",
+  };
+
   return (
     <div>
       <img
         src={BoissonTitre}
         alt="Boisson Titre"
         className="w-full"
-        style={{ maxWidth: '50%', maxHeight: '50%' }}
+        style={{ maxWidth: "50%", maxHeight: "40%", margin: "0 auto" }}
       />
 
-      <div className="flex mt-4 ml-20">
-        <img src={Boissons1} alt="Boissons1" className="max-w-1/2 mr-2 max-h-1/3" />
-        <img src={Boisson3} alt="Boisson3" className="max-w-1/2 mr-2 max-h-1/3" />
-        <img src={Boisson4} alt="Boisson4" className="max-w-1/2 max-h-1/3" />
+      <div className="flex mt-4 ml-20 mb-4 flex-wrap">
+        {boissons.map((boisson, index) => (
+          <div key={index} className="max-w-4/4 max-h-2/4 mr-4 mb-4">
+            <img
+              src={boisson.image}
+              alt={`Boisson ${index + 1}`}
+              style={imageStyle}
+            />
+            <button
+              style={buttonStyle}
+              onClick={() => ajouterAuPanier(boisson.prix)}
+            >
+              Prix: {boisson.prix.toFixed(2)} €
+            </button>
+          </div>
+        ))}
       </div>
-
-      <div className="flex mt-4 ml-20">
-        <img src={Boisson5} alt="Boisson5" className="max-w-1/3 mr-2 max-h-1/3" />
-        <img src={Boisson6} alt="Boisson6" className="max-w-1/3 mr-2 max-h-1/3" />
-        <img src={Boisson7} alt="Boisson7" className="max-w-1/3 max-h-1/3" />
-      </div>
+      <Link to="/panier" className="text-white">
+        Panier
+      </Link>
     </div>
   );
 }
