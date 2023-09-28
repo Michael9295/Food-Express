@@ -1,41 +1,38 @@
-import Counter from "./components/Counter";
-import logo from "./assets/logo.svg";
-
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Accueil from "./pages/Accueil";
+import Salades from "./pages/Salades";
+import Hamburgers from "./pages/Hamburgers";
+import Entrées from "./pages/Entrées";
+import Desserts from "./pages/Desserts";
+import Boisson from "./pages/Boisson";
+import SpecialHamburgers from "./pages/SpecialHamburgers";
+import Panier from "./pages/Panier";
+import { PanierProvider } from "./components/PanierContext";
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React !</p>
-
-        <Counter />
-
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <PanierProvider>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Accueil />} />
+            <Route path="/panier" element={<Panier />} />
+            <Route path="/boissons" element={<Boisson />} />
+            <Route path="/desserts" element={<Desserts />} />
+            <Route path="/entrées" element={<Entrées />} />
+            <Route path="/hamburgers" element={<Hamburgers />} />
+            <Route path="/spécial-hamburgers" element={<SpecialHamburgers />} />
+            <Route path="/salades" element={<Salades />} />
+          </Routes>
+          <Footer />
+        </div>
+      </PanierProvider>
+    </BrowserRouter>
   );
 }
 
