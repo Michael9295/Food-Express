@@ -1,30 +1,38 @@
-// PanierContext.js
-import React, { createContext, useState, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
 const PanierContext = createContext();
+
+export function usePanier() {
+  return useContext(PanierContext);
+}
 
 export function PanierProvider({ children }) {
   const [panier, setPanier] = useState([]);
   const [prixTotal, setPrixTotal] = useState(0);
 
-  const ajouterAuPanier = (prix) => {
-    setPanier([...panier, prix]);
-    setPrixTotal((prevPrixTotal) => prevPrixTotal + prix);
+  function ajouterAuPanier(produit) {
+    setPanier([...panier, produit]);
+  }
+
+  function supprimerDuPanier(index) {
+    const nouveauxProduits = [...panier];
+    nouveauxProduits.splice(index, 1);
+    setPanier(nouveauxProduits);
+  }
+
+  useEffect(() => {
+    const total = panier.reduce((acc, produit) => acc + (produit.prix || 0), 0);
+    setPrixTotal(total);
+  }, [panier]);
+
+  const value = {
+    panier,
+    prixTotal,
+    ajouterAuPanier,
+    supprimerDuPanier,
   };
 
   return (
-    <PanierContext.Provider value={{ panier, ajouterAuPanier, prixTotal }}>
-      {children}
-    </PanierContext.Provider>
+    <PanierContext.Provider value={value}>{children}</PanierContext.Provider>
   );
 }
-
-export const usePanier = () => {
-  const context = useContext(PanierContext);
-  if (!context) {
-    throw new Error(
-      "usePanier doit être utilisé à l'intérieur du PanierProvider"
-    );
-  }
-  return context;
-};

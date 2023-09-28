@@ -1,14 +1,36 @@
-// Panier.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePanier } from "../components/PanierContext";
 
 function Panier() {
-  const { panier, prixTotal } = usePanier();
+  const { panier, prixTotal, supprimerDuPanier } = usePanier();
+  const [panierCount, setPanierCount] = useState(0);
+
+  useEffect(() => {
+    // Mettez à jour le compteur lorsque le panier change
+    setPanierCount(panier.length);
+  }, [panier]);
 
   const handleConfirmerCommande = () => {
     toast.success("Votre commande a bien été prise en compte.", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 3000,
+      style: {
+        background: "black",
+        color: "white",
+      },
+    });
+
+    // Rafraîchir la page après 5 secondes
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000);
+  };
+
+  const handleSupprimerProduit = (index) => {
+    supprimerDuPanier(index);
+    toast.info("Produit supprimé du panier", {
       position: toast.POSITION.BOTTOM_RIGHT,
       autoClose: 3000,
       style: {
@@ -24,8 +46,18 @@ function Panier() {
       <div className="flex flex-col">
         {panier.map((produit, index) => (
           <div key={index} className="flex justify-between py-2 px-4 border-b">
-            <span>Produit {index + 1}</span>
-            <span>{produit.toFixed(2)} €</span>
+            <span>{produit.nom}</span>
+            <span>
+              {produit.prix !== undefined
+                ? `${produit.prix.toFixed(2)} €`
+                : "N/A"}
+            </span>
+            <button
+              onClick={() => handleSupprimerProduit(index)}
+              className="text-red-500"
+            >
+              Supprimer
+            </button>
           </div>
         ))}
       </div>
@@ -35,10 +67,11 @@ function Panier() {
       </div>
       <button
         onClick={handleConfirmerCommande}
-        className="bg-orange-500 text-white px-4 py-2 mt-4"
+        className="bg-orange-500 text-white px-4 py-2 mt-4 mx-auto block"
       >
         Confirmer la commande
       </button>
+
       <ToastContainer />
     </div>
   );

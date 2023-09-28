@@ -1,4 +1,3 @@
-// Desserts.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
@@ -14,12 +13,12 @@ function Desserts() {
   const { ajouterAuPanier } = usePanier();
 
   const desserts = [
-    { image: Dessert1, prix: 4.99 },
-    { image: Dessert2, prix: 3.49 },
-    { image: Dessert3, prix: 2.99 },
-    { image: Dessert4, prix: 3.79 },
-    { image: Dessert5, prix: 4.49 },
-    { image: Dessert6, prix: 2.29 },
+    { nom: "ICAKE", image: Dessert1, prix: 4.99 },
+    { nom: "CHEESECAKE A L'ESPAGNOLE", image: Dessert2, prix: 3.49 },
+    { nom: "VANINUTE SHAKE", image: Dessert3, prix: 2.99 },
+    { nom: "GOIKO SHAKE", image: Dessert4, prix: 3.79 },
+    { nom: "FROZEN GOIKO", image: Dessert5, prix: 4.49 },
+    { nom: "GOIKO BROOKIE", image: Dessert6, prix: 2.29 },
   ];
 
   const buttonStyle = {
@@ -34,6 +33,10 @@ function Desserts() {
   const imageStyle = {
     maxWidth: "100px",
     maxHeight: "100px",
+  };
+
+  const handleAjouterAuPanier = (produit) => {
+    ajouterAuPanier(produit);
   };
 
   return (
@@ -55,9 +58,11 @@ function Desserts() {
             />
             <button
               style={buttonStyle}
-              onClick={() => ajouterAuPanier(dessert.prix)}
+              onClick={() => handleAjouterAuPanier(dessert)}
             >
-              Prix: {dessert.prix.toFixed(2)} €
+              Ajouter au panier
+              <br />
+              Prix: {dessert.prix ? `${dessert.prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}
