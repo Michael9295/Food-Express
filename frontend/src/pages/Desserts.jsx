@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
 import DessertTitre from "../assets/dessertstitre-removebg-preview.png";
@@ -11,6 +11,7 @@ import Dessert6 from "../assets/dessert6.png";
 
 function Desserts() {
   const { ajouterAuPanier } = usePanier();
+  const [clickedButton, setClickedButton] = useState(null);
 
   const desserts = [
     { nom: "ICAKE", image: Dessert1, prix: 4.99 },
@@ -21,54 +22,92 @@ function Desserts() {
     { nom: "GOIKO BROOKIE", image: Dessert6, prix: 2.29 },
   ];
 
-  const buttonStyle = {
-    backgroundColor: "orange",
+  const handleAjouterAuPanier = (index) => {
+    setClickedButton(index);
+    setTimeout(() => {
+      setClickedButton(null);
+    }, 1000);
+    ajouterAuPanier(desserts[index]);
+  };
+
+  const buttonStyle = (index) => ({
+    backgroundColor: clickedButton === index ? "green" : "orange",
     color: "white",
     padding: "0.25rem 0.5rem",
     border: "none",
     borderRadius: "4px",
     marginTop: "0.5rem",
-  };
+  });
 
   const imageStyle = {
-    maxWidth: "100px",
-    maxHeight: "100px",
+    maxWidth: "280px",
+    maxHeight: "280px",
+    margin: "0",
   };
 
-  const handleAjouterAuPanier = (produit) => {
-    ajouterAuPanier(produit);
+  const flexContainerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginLeft: "20px",
+    marginRight: "20px",
+  };
+
+  const titreImageStyle = {
+    maxWidth: "30%",
+    maxHeight: "30%",
+    display: "block",
+    margin: "0 auto",
   };
 
   return (
-    <div>
+    <div className="bg-gray-200">
       <img
         src={DessertTitre}
         alt="Dessert Titre"
         className="w-full"
-        style={{ maxWidth: "50%", maxHeight: "40%", margin: "0 auto" }}
+        style={titreImageStyle}
       />
 
-      <div className="flex mt-4 ml-20 mb-4 flex-wrap">
-        {desserts.map((dessert, index) => (
-          <div key={index} className="max-w-4/4 max-h-2/4 mr-4 mb-4">
+      <div style={flexContainerStyle}>
+        {desserts.slice(0, 3).map((dessert, index) => (
+          <div key={index} className="mr-2 mb-2">
             <img
               src={dessert.image}
               alt={`Dessert ${index + 1}`}
               style={imageStyle}
             />
             <button
-              style={buttonStyle}
-              onClick={() => handleAjouterAuPanier(dessert)}
+              style={buttonStyle(index)}
+              onClick={() => handleAjouterAuPanier(index)}
             >
-              Ajouter au panier
-              <br />
+              {clickedButton === index ? "Ajouté !" : "Ajouter au panier"} <br />
               Prix: {dessert.prix ? `${dessert.prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}
       </div>
-      <Link to="/panier" className="text-white">
-        Panier
+
+      <div style={flexContainerStyle}>
+        {desserts.slice(3).map((dessert, index) => (
+          <div key={index} className="mr-2 mb-2">
+            <img
+              src={dessert.image}
+              alt={`Dessert ${index + 4}`}
+              style={imageStyle}
+            />
+            <button
+              style={buttonStyle(index + 3)}
+              onClick={() => handleAjouterAuPanier(index + 3)}
+            >
+              {clickedButton === index + 3 ? "Ajouté !" : "Ajouter au panier"} <br />
+              Prix: {dessert.prix ? `${dessert.prix.toFixed(2)} €` : "N/A"}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <Link to="/panier" className="text-white mt-4">
       </Link>
     </div>
   );

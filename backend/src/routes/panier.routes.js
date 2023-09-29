@@ -1,6 +1,6 @@
 // panier.routes.js
 const express = require('express');
-const { ajouterProduitDansPanier, supprimerProduitDuPanier } = require('./PanierController'); // Notez le changement de nom ici
+const { ajouterProduitDansPanier, supprimerProduitDuPanier } = require('./PanierController');
 
 const router = express.Router();
 
