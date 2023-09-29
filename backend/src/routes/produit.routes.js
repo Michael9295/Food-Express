@@ -1,10 +1,9 @@
 //Produit.routes.js
 const express = require('express');
-const { creerProduit } = require('./ProduitModel'); // Importer la fonction creerProduit depuis ProduitModel
+const { creerProduit } = require('./ProduitModel');
 
 const router = express.Router();
 
-// Route pour créer un produit
 router.post('/creer', async (req, res) => {
   const { nom, prix, type_produit } = req.body;
 

@@ -20,8 +20,18 @@ export function PanierProvider({ children }) {
     setPanier(nouveauxProduits);
   }
 
+  function modifierQuantiteProduit(index, nouvelleQuantite) {
+    const nouveauxProduits = [...panier];
+    nouveauxProduits[index].quantite = nouvelleQuantite;
+    setPanier(nouveauxProduits);
+  }
+
+  function viderPanier() {
+    setPanier([]);
+  }
+
   useEffect(() => {
-    const total = panier.reduce((acc, produit) => acc + (produit.prix || 0), 0);
+    const total = panier.reduce((acc, produit) => acc + (produit.prix || 0) * (produit.quantite || 1), 0);
     setPrixTotal(total);
   }, [panier]);
 
@@ -30,6 +40,8 @@ export function PanierProvider({ children }) {
     prixTotal,
     ajouterAuPanier,
     supprimerDuPanier,
+    modifierQuantiteProduit,
+    viderPanier,
   };
 
   return (

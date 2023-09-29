@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import logo from "../assets/Foodexpress.png";
-import logopanier from "../assets/logopanier.png";
+import logo from "../assets/Foodexpress-removebg-preview.png";
+import logopanier from "../assets/logopanier-removebg-preview.png";
 import { usePanier } from "./PanierContext";
 
 function Navbar() {
@@ -15,14 +15,13 @@ function Navbar() {
 
   return (
     <nav className="bg-black p-6 flex items-center justify-between">
-      <div className="flex items-center flex-shrink-0 text-white mx-auto">
-        <Link to="/">
-          <img src={logo} alt="Logo" className="w-20 h-22" />
-        </Link>
-      </div>
-
-      <div className="hidden lg:flex flex-grow justify-between">
-        <div className="flex items-center space-x-6">
+      <div className="flex items-center flex-grow">
+        <div className="lg:hidden">
+          <button className="text-white">
+            <FaBars />
+          </button>
+        </div>
+        <div className="hidden lg:flex items-center space-x-6 ml-8">
           <Link to="/" className="text-white">
             Accueil
           </Link>
@@ -32,22 +31,17 @@ function Navbar() {
           <Link to="/desserts" className="text-white">
             Desserts
           </Link>
-          <Link
-            to="/panier"
-            className="text-white"
-            style={{ position: "relative", display: "inline-block" }}
-          >
-            <img src={logopanier} alt="Panier" className="w-15 h-10" />
-            <span
-              className="bg-orange-500 text-white px-1 py-0 rounded-full"
-              style={{ position: "absolute", top: "-8px", right: "0" }}
-            >
-              {panierCount}
-            </span>
-          </Link>
         </div>
+        <div className="flex-grow text-center ml-40">
+        <Link to="/">
+  <img src={logo} alt="Logo" className="w-30 h-40 mx-auto" />
+</Link>
 
-        <div className="flex items-center space-x-6">
+        </div>
+      </div>
+
+      <div className="flex items-center space-x-6 mr-8">
+        <div className="hidden lg:flex items-center space-x-6">
           <Link to="/spécial-hamburgers" className="text-white">
             Spécial Hamburgers
           </Link>
@@ -61,12 +55,12 @@ function Navbar() {
             Salades
           </Link>
         </div>
-      </div>
-
-      <div className="block lg:hidden">
-        <button className="text-white-500 focus:outline-none">
-          <FaBars />
-        </button>
+        <Link to="/panier" className="relative inline-block">
+  <img src={logopanier} alt="Panier" className="w-20 h-15" />
+  <span className="bg-orange-500 text-white px-2 py-1 rounded-full absolute top-0 right-0" style={{ fontSize: '1.2rem' }}>
+    {panierCount}
+  </span>
+</Link>
       </div>
     </nav>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePanier } from "../components/PanierContext";
 import EntréesTitre from "../assets/entréestitre-removebg-preview.png";
@@ -11,6 +11,7 @@ import Entrée6 from "../assets/entrée6.png";
 
 function Entrées() {
   const { ajouterAuPanier } = usePanier();
+  const [clickedButton, setClickedButton] = useState(null);
 
   const entrées = [
     { nom: "BOOM BALLS", image: Entrée1, prix: 3.99 },
@@ -21,55 +22,95 @@ function Entrées() {
     { nom: "CHORREO NACHOS", image: Entrée6, prix: 3.99 },
   ];
 
-  const buttonStyle = {
-    backgroundColor: "orange",
+  const handleAjouterAuPanier = (index) => {
+    setClickedButton(index);
+    setTimeout(() => {
+      setClickedButton(null);
+    }, 1000);
+    ajouterAuPanier(entrées[index]);
+  };
+
+  const buttonStyle = (index) => ({
+    backgroundColor: clickedButton === index ? "green" : "orange",
     color: "white",
     padding: "0.25rem 0.5rem",
     border: "none",
     borderRadius: "4px",
     marginTop: "0.5rem",
+    marginLeft: "1rem",
+  });
+
+  const containerStyle = {
+    display: "flex",
+    justifyContent: "center",
   };
 
   const imageStyle = {
-    maxWidth: "100px",
-    maxHeight: "100px",
+    width: "280px",
+    height: "280px",
+    margin: "0 1rem",
+  };
+  
+  const titreImageStyle = {
+    maxWidth: "25%",
+    maxHeight: "25%",
+    display: "block",
+    margin: "0 auto",
   };
 
-  const handleAjouterAuPanier = (produit) => {
-    ajouterAuPanier(produit);
+  const secondRowStyle = {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "2rem",
   };
 
   return (
-    <div>
+    <div className="bg-gray-200">
       <img
         src={EntréesTitre}
         alt="Entrées Titre"
-        className="w-full"
-        style={{ maxWidth: "50%", maxHeight: "50%", margin: "0 auto" }}
+        style={titreImageStyle}
       />
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        {entrées.map((entrée, index) => (
-          <div key={index} className="max-w-1/3 mr-2 max-h-1/3">
+      <div style={containerStyle}>
+        {[Entrée1, Entrée2, Entrée3].map((image, index) => (
+          <div key={index} className="mr-2">
             <img
-              src={entrée.image}
+              src={image}
               alt={`Entrée ${index + 1}`}
               style={imageStyle}
             />
             <button
-              style={buttonStyle}
-              onClick={() => handleAjouterAuPanier(entrée)}
+              style={buttonStyle(index)}
+              onClick={() => handleAjouterAuPanier(index)}
             >
-              Ajouter au panier
-              <br />
-              Prix: {entrée.prix ? `${entrée.prix.toFixed(2)} €` : "N/A"}
+              {clickedButton === index ? "Ajouté !" : "Ajouter au panier"} <br />
+              Prix: {entrées[index].prix ? `${entrées[index].prix.toFixed(2)} €` : "N/A"}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div style={secondRowStyle}>
+        {[Entrée4, Entrée5, Entrée6].map((image, index) => (
+          <div key={index} className="mr-2">
+            <img
+              src={image}
+              alt={`Entrée ${index + 4}`}
+              style={imageStyle}
+            />
+            <button
+              style={buttonStyle(index + 3)}
+              onClick={() => handleAjouterAuPanier(index + 3)}
+            >
+              {clickedButton === index + 3 ? "Ajouté !" : "Ajouter au panier"} <br />
+              Prix: {entrées[index + 3].prix ? `${entrées[index + 3].prix.toFixed(2)} €` : "N/A"}
             </button>
           </div>
         ))}
       </div>
 
       <Link to="/panier" className="text-white">
-        Panier
       </Link>
     </div>
   );
